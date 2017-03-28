@@ -1,0 +1,23 @@
+{
+  "name": "sequelize-mvc-codegen",
+  "description": "mvc结构的sequelize代码生成器",
+  "version": "0.0.1",
+  "author": {
+    "name": "sunwei",
+    "url": "https://github.com/sunwei1991"
+  },
+  "scripts": {
+    "start": "node ./start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunwei1991/sequelize-mvc-codegen.git"
+  },
+  "homepage": "https://github.com/sunwei1991/sequelize-mvc-codegen",
+  "dependencies": {
+    "mysql":"*",
+    "thenjs": "*",
+    "ejs":"*"
+  }
+}
+

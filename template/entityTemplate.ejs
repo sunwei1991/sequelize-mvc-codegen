@@ -1,0 +1,23 @@
+/**
+* @fileOverview mysql中<%= tableName%>表的schema文件
+* @author sequelize-mvc-codegen
+* @module model/mysql/entity/<%= friendlyTableName%>Model
+* @description 本文件由sequelize-mvc-codegen自动生成，手动更改此文件可能会导致应用程序中发生异常行为。重新生成代码，则将覆盖对此文件的手动更改。
+*/
+"use strict";
+const sequelize = require('sequelize');
+const schema = require('./schema').schema();
+
+/**
+* @description 定义<%= tableName%>表model
+*/
+let <%= friendlyTableName%> = schema.define('<%= tableName%>', {<% for(var i=0;i<columns.length;i++){var column=columns[i];%>
+<%= column.friendlyName%>: {type: sequelize.<%= column.type%><% if(column.primaryKey){%>, primaryKey: true<% } %><% if(column.autoIncrement){%>, autoIncrement: true<% } %><% if(column.allowNull){%>, allowNull: true<% } %>}<% if(i!=columns.length-1){%>,<% } %><% } %>
+},
+{
+freezeTableName: false,
+tableName: '<%= tableName%>',
+timestamps: false
+});
+
+module.exports = <%= friendlyTableName%>;
