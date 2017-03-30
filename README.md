@@ -1,7 +1,7 @@
 # sequelize-mvc-codegen
-###mvc结构的sequelize代码生成器
-####目前仅支持mysql
-######生成的文档结构如下：
+### mvc结构的sequelize代码生成器
+#### 目前仅支持mysql
+###### 生成的文档结构如下：
 <br />
 -root文件夹
 <br />
