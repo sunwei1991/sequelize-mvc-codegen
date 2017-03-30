@@ -1,0 +1,11 @@
+/**
+ * @fileOverview <%= tableName%>表操作模块
+ * @author sequelize-mvc-codegen
+ * @module model/mysql/dac/<%= friendlyTableName%>DAC
+ * @description 用户可在此文件中添加对<%= tableName%>表的操作，此文件集成了sequelize-mvc-codegen自动生成的模块。
+ */
+"use strict";
+const <%= friendlyTableName%>Model = require('../entity/<%= friendlyTableName%>Model.js');
+const extension = require('./partial/<%= friendlyTableName%>DAC.js');
+const then = require('thenjs');
+module.exports = extension;

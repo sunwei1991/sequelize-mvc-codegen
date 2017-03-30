@@ -1,0 +1,146 @@
+/**
+ * @fileOverview <%= tableName%>表操作模块
+ * @module model/mysql/dac/<%= friendlyTableName%>DAC
+ * @author sequelize-mvc-codegen
+ * @description 本文件由sequelize-mvc-codegen自动生成，手动更改此文件可能会导致应用程序中发生异常行为，如果重新生成代码，则将覆盖对此文件的手动更改。
+ */
+"use strict";
+const <%= friendlyTableName%>Model = require('../../entity/<%= friendlyTableName+"Model.js"%>');
+const schema = require('../../entity/schema').schema();
+const then = require('thenjs');
+
+/**
+ * @description 添加一条<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {Object} <%= friendlyTableName%>
+ * @returns {Object} 添加成功时返回新添加的<%= friendlyTableName%>对象
+ */
+module.exports.addOne = function (<%= friendlyTableName%>) {
+    let options = {raw: true};
+    return then(function (cont) {
+        <%= friendlyTableName%>Model.create(<%= friendlyTableName%>, options)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};
+<% columns.forEach(function(col){%><% if(col.primaryKey){%>
+/**
+ * @description 根据<%= col.name%>获取一条<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {<%= col.type%>} <%= col.friendlyName%>
+ * @returns {Object} 返回一条<%= friendlyTableName%>记录
+ */
+module.exports.getBy<%= fnUpperName(col.name)%> = function (<%= col.friendlyName%>) {
+    let conditions = {raw: true, where: {<%= col.friendlyName%>: <%= col.friendlyName%>}};
+    return then(function (cont) {
+        <%= friendlyTableName%>Model.findOne(conditions)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};
+
+/**
+ * @description 根据<%= col.name%>删除一条<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {<%= col.type%>} <%= col.friendlyName%>
+ * @returns {Number} 返回受影响的行数
+ */
+module.exports.deleteBy<%= fnUpperName(col.name)%> = function (<%= col.friendlyName%>) {
+    let conditions = {where: {<%= col.friendlyName%>: <%= col.friendlyName%>}};
+    return then(function (cont) {
+        <%= friendlyTableName%>Model.destroy(conditions)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};
+
+/**
+ * @description 根据<%= col.name%>倒序获取最新的<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {Number} length 返回的记录条数
+ * @returns {Array} 返回<%= friendlyTableName%>记录列表
+ */
+module.exports.getLatestOrderByID = function (length) {
+    <% var _str='';columns.forEach(function(c){if(c.friendlyName){_str+=c.friendlyName+',';}});%>let queryStr = "select <%= _str.substr(0,_str.length-1)%> from <%= tableName%> order by <%= col.friendlyName%> desc limit 0,:length";
+    let conditions = {type: schema.QueryTypes.SELECT, raw: true, replacements: {length: length}};
+    return then(function (cont) {
+        schema.query(queryStr, conditions)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};<% } %><% });%>
+<% if(columns.length>=2){%>
+/**
+ * @description 根据<%= columns[1].name%>获取一条<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {<%= columns[1].type%>} <%= columns[1].friendlyName%>
+ * @returns {Object} 返回一条<%= friendlyTableName%>记录
+ */
+module.exports.getBy<%= fnUpperName(columns[1].name)%> = function (<%= columns[1].friendlyName%>) {
+    let conditions = {raw: true, where: {<%= columns[1].friendlyName%>: <%= columns[1].friendlyName%>}};
+    return then(function (cont) {
+        <%= friendlyTableName%>Model.findOne(conditions)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};
+
+/**
+ * @description 根据<%= columns[1].name%>删除<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {<%= columns[1].type%>} <%= columns[1].friendlyName%>
+ * @returns {Number} 返回受影响的行数
+ */
+module.exports.deleteBy<%= fnUpperName(columns[1].name)%> = function (<%= columns[1].friendlyName%>) {
+    let conditions = {where: {<%= columns[1].friendlyName%>: <%= columns[1].friendlyName%>}};
+    return then(function (cont) {
+        <%= friendlyTableName%>Model.destroy(conditions)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};
+
+/**
+ * @description 根据标识更新<%= friendlyTableName%>记录
+ * @author sequelize-mvc-codegen
+ * @param {<%= columns[1].type%>} <%= columns[1].friendlyName%>
+ * @param {Object} <%= friendlyTableName%> 新的<%= friendlyTableName%>
+ * @returns {Number} 受影响的行数
+ */
+module.exports.updateBy<%= fnUpperName(columns[1].name)%> = function (<%= columns[1].friendlyName%>, <%= friendlyTableName%>) {
+    let conditions = {raw: true, where: {<%= columns[1].friendlyName%>: <%= columns[1].friendlyName%>}};
+    return then(function (cont) {
+        <%= friendlyTableName%>Model.update(<%= friendlyTableName%>, conditions)
+            .then(function (data) {
+                cont(null, data);
+            })
+            .catch(function (err) {
+                cont(err);
+            });
+    });
+};
+<%}%>
